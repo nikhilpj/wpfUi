@@ -5,10 +5,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 using WpfApp.Commands;
 using WpfApp.Generic;
 using WpfApp.Models;
+using WpfApp.Pages;
 using WpfApp.Services;
 using WpfApp.Views;
 
@@ -16,12 +18,13 @@ namespace WpfApp.ViewModels
 {
     public class EditTicketViewModel : NotifyPropertyChangedBase
     {
-       
-       
+
+        private Frame _mainFrame;
 
         private readonly TicketService _ticketService;
         private Ticket _ticket;
         public ICommand SaveCommand { get; }
+        public ICommand NavigateToMainCommand { get; }
 
         public Ticket Ticket
         {
@@ -99,7 +102,7 @@ namespace WpfApp.ViewModels
         {
             get
             {
-                return Ticket.Status != "In Progress"; // Disable if "In Progress" is selected
+                return Ticket.Status != "In Progress" && Ticket.Status != "Closed"; // Disable if "In Progress" is selected
             }
         }
 
@@ -133,17 +136,29 @@ namespace WpfApp.ViewModels
         }
 
 
-        public EditTicketViewModel(Ticket ticket)
+        public EditTicketViewModel(Frame mainFrame,Ticket ticket)
         {
             _ticketService = new TicketService();
             Ticket = ticket;
+            _mainFrame = mainFrame;
             
             SaveCommand = new RelayCommand(SaveTicket, CanSaveTicket);
+            NavigateToMainCommand = new RelayCommand(NavigateToMain, CanNavigateToMain);
             if (IsClosed)
             {
-                MainWindow mainWindow = new MainWindow(Ticket.UserId);
-                mainWindow.Show();
+                //MainWindow mainWindow = new MainWindow(Ticket.UserId);
+                //mainWindow.Show();
             }
+        }
+
+        private bool CanNavigateToMain(object obj)
+        {
+            return true;
+        }
+
+        private void NavigateToMain(object obj)
+        {
+            _mainFrame.Navigate(new Main(_mainFrame, Ticket.UserId));
         }
 
         private bool CanSaveTicket(object obj)
@@ -156,15 +171,9 @@ namespace WpfApp.ViewModels
         private async void SaveTicket(object obj)
         {
             await _ticketService.UpdateTicketStatus(Ticket.Id, Ticket.Status);
+            _mainFrame.Navigate(new Main(_mainFrame, Ticket.UserId));
 
-            if(obj is Window EditTicket)
-            {
-                EditTicket.Close();
-            }
-            MainWindow mainWindow = new MainWindow(Ticket.UserId);
-            mainWindow.Show();
-
-           
+            
         }
 
        

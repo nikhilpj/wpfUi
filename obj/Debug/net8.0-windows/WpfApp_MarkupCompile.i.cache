@@ -10,11 +10,11 @@ none
 false
 TRACE;DEBUG;NET;NET8_0;NETCOREAPP
 C:\Users\Lenovo\Desktop\Nikhil\TestCopy\WpfAppTest\WpfApp\App.xaml
-465370639
+5-1602830256
 
-18-1183789957
+19481211223
 198-556154604
-MainWindow.xaml;Views\AddTicket.xaml;Views\EditTicket.xaml;Views\Login.xaml;
+Pages\AddTicket.xaml;Pages\EditTicket.xaml;Pages\Login.xaml;Pages\Main.xaml;Views\MainFrame.xaml;
 
 True
 

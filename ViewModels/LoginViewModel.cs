@@ -10,7 +10,7 @@ using System.Windows.Navigation;
 using WpfApp.Commands;
 using WpfApp.Generic;
 using WpfApp.Models;
-
+using WpfApp.Pages;
 using WpfApp.Services;
 
 namespace WpfApp.ViewModels
@@ -20,6 +20,7 @@ namespace WpfApp.ViewModels
         private string _username;
         private string _password;
         private string _statusMessage;
+        private Login _loginPage;
        
       
         private readonly TicketService _ticketService;
@@ -61,8 +62,9 @@ namespace WpfApp.ViewModels
             }
         }
 
-        public LoginViewModel()
+        public LoginViewModel(Login loginPage)
         {
+            _loginPage = loginPage;
             _ticketService = new TicketService();
            
             LoginCommand = new RelayCommand(LoginUser, CanLoginUser);
@@ -89,8 +91,7 @@ namespace WpfApp.ViewModels
             {
                 MessageBox.Show("login sucess");
                 StatusMessage = "Login Successfull";
-                MainWindow mainWindow = new MainWindow(exUser.Id);
-                mainWindow.Show();
+                _loginPage.NavigateToMain(1);
 
             }
             else

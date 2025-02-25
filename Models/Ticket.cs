@@ -59,8 +59,9 @@ namespace WpfApp.Models
         
             set
             {
-                _status = value;
+                //_status = value;
                 //OnPropertyChanged(nameof(Status));
+                Set(ref _status, value);
             }
         }
 
@@ -70,6 +71,7 @@ namespace WpfApp.Models
             {
                 return Status != "Closed";
             }
+
         }
 
     }

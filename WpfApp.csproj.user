@@ -7,27 +7,36 @@
     </ApplicationDefinition>
   </ItemGroup>
   <ItemGroup>
-    <Compile Update="Views\AddTicket.xaml.cs">
+    <Compile Update="Pages\AddTicket.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Views\EditTicket.xaml.cs">
+    <Compile Update="Pages\EditTicket.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Views\Login.xaml.cs">
+    <Compile Update="Pages\Login.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Pages\Main.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Views\MainFrame.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Page Update="MainWindow.xaml">
+    <Page Update="Pages\AddTicket.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Views\AddTicket.xaml">
+    <Page Update="Pages\EditTicket.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Views\EditTicket.xaml">
+    <Page Update="Pages\Login.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Views\Login.xaml">
+    <Page Update="Pages\Main.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Views\MainFrame.xaml">
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>

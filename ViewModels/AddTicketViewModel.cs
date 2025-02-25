@@ -5,11 +5,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 using WpfApp.Commands;
 using WpfApp.Generic;
 using WpfApp.Models;
-
+using WpfApp.Pages;
 using WpfApp.Services;
 
 namespace WpfApp.ViewModels
@@ -17,7 +18,7 @@ namespace WpfApp.ViewModels
     public class AddTicketViewModel : NotifyPropertyChangedBase
     {
         private readonly TicketService _ticketService;
-
+        private Frame _mainFrame;
       
 
         private string _title;
@@ -25,6 +26,7 @@ namespace WpfApp.ViewModels
         private int _userId;
         private string _statusMessage;
         public ICommand SubmitCommand { get; }
+        public ICommand NavigateToMainCommand { get; }
 
 
         public string Title
@@ -65,14 +67,27 @@ namespace WpfApp.ViewModels
             {
                
                 Set(ref _statusMessage, value);
+                ((RelayCommand)SubmitCommand).RaiseCanExecuteChanged();
             }
         }
 
-        public AddTicketViewModel(int userId)
+        public AddTicketViewModel(Frame mainFrame,int userId)
         {
             _userId = userId;
+            _mainFrame = mainFrame;
             _ticketService = new TicketService();
             SubmitCommand = new RelayCommand(SubmitTicket,CanSubmitTicket);
+            NavigateToMainCommand = new RelayCommand(NavigateToMain, CanNavigateToMain);
+        }
+
+        private void NavigateToMain(object obj)
+        {
+            _mainFrame.Navigate(new Main(_mainFrame, _userId));
+        }
+
+        private bool CanNavigateToMain(object obj)
+        {
+            return true;
         }
 
         private bool CanSubmitTicket(object obj)
@@ -96,10 +111,11 @@ namespace WpfApp.ViewModels
             {
                 StatusMessage = "Ticket added successfully";
                 MessageBox.Show(StatusMessage);
+                _mainFrame.Navigate(new Main(_mainFrame, newTicket.UserId));
 
-                Application.Current.Windows[1].Close();
-                MainWindow mainWindow = new MainWindow(_userId);
-                mainWindow.Show();
+                //Application.Current.Windows[1].Close();
+                //MainWindow mainWindow = new MainWindow(_userId);
+                //mainWindow.Show();
 
 
             }
@@ -107,8 +123,8 @@ namespace WpfApp.ViewModels
             {
                 StatusMessage = "error in adding Ticket";
                 MessageBox.Show(StatusMessage);
-                MainWindow mainWindow = new MainWindow(_userId);
-                mainWindow.Show();
+                //MainWindow mainWindow = new MainWindow(_userId);
+                //mainWindow.Show();
 
             }
 
